@@ -4,8 +4,8 @@ export PHP_VER=7.3
 export BASE_DIR=`pwd`
 
 apt-get update -y
-apt-get -y install git curl wget supervisor openssh-server locales beanstalkd python3 python3-pip libleptonica-dev tesseract-ocr libtesseract-dev \
-mysql-client mysql-server apache2 pwgen vim-tiny mc iproute2 python-setuptools \
+apt-get -y install git curl wget supervisor locales beanstalkd python3 python3-pip libleptonica-dev tesseract-ocr libtesseract-dev \
+mysql-client mysql-server pwgen iproute2 python-setuptools \
 unison netcat net-tools memcached nano php php-cli php-common \
 php-gd php-json php-mbstring php-xdebug php-mysql php7.3-opcache php-curl \
 php-readline php-xml php-memcached php-oauth php-bcmath \
