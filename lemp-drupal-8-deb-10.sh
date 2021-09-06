@@ -1,1 +1,5 @@
-## Your bash script to install LEMLP stack & Drupal 8 on Debian 10
+#!/bin/bash
+source ./lemp-drupal-8-deb-10.env
+
+sudo apt udpate -y
+sudo apt install git -y
