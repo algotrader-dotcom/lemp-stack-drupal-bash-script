@@ -1,6 +1,7 @@
 #!/bin/bash
 export DRUPAL_VER=9.2.5
 export PHP_VER=7.3
+export BASE_DIR=`pwd`
 
 apt-get update -y
 apt-get -y install git curl wget supervisor openssh-server locales beanstalkd python3 python3-pip libleptonica-dev tesseract-ocr libtesseract-dev \
@@ -40,13 +41,14 @@ chmod -R ug+w /var/www/html/ ; \
 wget "http://www.adminer.org/latest.php" -O /var/www/html/web/adminer.php
 
 # Install supervisor
+echo $BASE_DIR
+cd $BASE_DIR
 cp ./files/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-cp ./files/start.sh /start.sh
+cp ./files/start.sh ./start.sh
 
 
 # Set some permissions
 mkdir -p /var/run/mysqld; \
 chown mysql:mysql /var/run/mysqld; \
-chmod 755 /start.sh /etc/apache2/foreground.sh
 
-bash files/start.sh
+bash ./start.sh
