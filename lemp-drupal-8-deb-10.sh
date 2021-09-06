@@ -29,32 +29,24 @@ curl https://updates.drupal.org/release-history/drupal/${DRUPAL_VER} -o /tmp/lat
 
 # Retrieve drupal & adminer
 # TODO: also require drupal/memcache
-RUN cd /var/www/html; \
-  DV=$(curl -s https://git.drupalcode.org/project/drupal/-/tags?format=atom | grep -e '<title>' | grep -Eo '[0-9\.]+'|sort -nr | grep ^${DRUPAL_VER} | head -n1) \
-  && git clone --depth 1 --single-branch -b ${DV} https://git.drupalcode.org/project/drupal.git web \
-  && cd web; composer require drush/drush:~10; composer install  \
-  && php --version; composer --version; vendor/bin/drush --version; vendor/bin/drush status \
-  && cd /var/www/html; chmod a+w web/sites/default; \
-  mkdir web/sites/default/files; chown -R www-data:www-data /var/www/html/; \
-  chmod -R ug+w /var/www/html/ ; \
-  wget "http://www.adminer.org/latest.php" -O /var/www/html/web/adminer.php
+cd /var/www/html; \
+DV=$(curl -s https://git.drupalcode.org/project/drupal/-/tags?format=atom | grep -e '<title>' | grep -Eo '[0-9\.]+'|sort -nr | grep ^${DRUPAL_VER} | head -n1) \
+&& git clone --depth 1 --single-branch -b ${DV} https://git.drupalcode.org/project/drupal.git web \
+&& cd web; composer require drush/drush:~10; composer install  \
+&& php --version; composer --version; vendor/bin/drush --version; vendor/bin/drush status \
+&& cd /var/www/html; chmod a+w web/sites/default; \
+mkdir web/sites/default/files; chown -R www-data:www-data /var/www/html/; \
+chmod -R ug+w /var/www/html/ ; \
+wget "http://www.adminer.org/latest.php" -O /var/www/html/web/adminer.php
 
 # Install supervisor
-COPY ./files/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY ./files/start.sh /start.sh
-COPY ./files/foreground.sh /etc/nginx/foreground.sh
+cp ./files/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+cp ./files/start.sh /start.sh
 
-# Apache & Xdebug
-RUN rm /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-enabled/*
-ADD ./files/000-default.conf /etc/apache2/sites-available/000-default.conf
-ADD ./files/xdebug.ini /etc/php/*/mods-available/xdebug.ini
-RUN a2ensite 000-default ; a2enmod rewrite vhost_alias
 
 # Set some permissions
-RUN mkdir -p /var/run/mysqld; \
-    chown mysql:mysql /var/run/mysqld; \
-    chmod 755 /start.sh /etc/apache2/foreground.sh
+mkdir -p /var/run/mysqld; \
+chown mysql:mysql /var/run/mysqld; \
+chmod 755 /start.sh /etc/apache2/foreground.sh
 
-WORKDIR /var/www/html
-EXPOSE 22 80 3306 9000
-CMD ["/bin/bash", "/start.sh"]
+bash files/start.sh
