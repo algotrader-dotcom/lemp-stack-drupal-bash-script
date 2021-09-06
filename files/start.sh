@@ -4,11 +4,7 @@ export BASEHTML="/var/www/html"
 export DOCROOT="/var/www/html/web"
 export GRPID=$(stat -c "%g" /var/lib/mysql/)
 export DRUSH="${DOCROOT}/vendor/bin/drush"
-export LOCAL_IP=$(hostname -I | awk '{print $1}')
-export HOSTIP=$(/sbin/ip route | awk '/default/ { print $3 }')
-export DRUPALVER=${DRUPALVER:-'9'}
-echo "${HOSTIP} dockerhost" >>/etc/hosts
-echo "Started Container: $(date)"
+export DRUPAL_VER=${DRUPAL_VER:-'9'}
 
 # Create a basic mysql install
 if [ ! -d /var/lib/mysql/mysql ]; then
