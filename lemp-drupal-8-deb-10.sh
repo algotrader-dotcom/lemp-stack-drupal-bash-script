@@ -45,7 +45,7 @@ echo $BASE_DIR
 cd $BASE_DIR
 cp ./files/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 cp ./files/start.sh ./start.sh
-cp ./files/nginx /etc/nginx/nginx.conf
+cp ./files/nginx.conf /etc/nginx/nginx.conf
 cp ./files/vhost_default /etc/nginx/sites-enabled/default
 
 
