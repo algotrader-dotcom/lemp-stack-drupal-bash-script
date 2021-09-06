@@ -42,7 +42,7 @@ RUN cd /var/www/html; \
 # Install supervisor
 COPY ./files/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY ./files/start.sh /start.sh
-COPY ./files/foreground.sh /etc/apache2/foreground.sh
+COPY ./files/foreground.sh /etc/nginx/foreground.sh
 
 # Apache & Xdebug
 RUN rm /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-enabled/*
